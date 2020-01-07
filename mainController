@@ -1,0 +1,121 @@
+package com.jdbc.Controller;
+import java.util.*;
+
+import com.jdbc.DAO.EmployeeDAO;
+import com.jdbc.Model.Employee;
+
+public class mainController {
+	private static Scanner sc = new Scanner(System.in);
+	public static void main(String[] args)throws Exception {
+		while(true) {
+		System.out.println("Enter 1 : Create a new Employee");
+		System.out.println("Enter 2 : Read Employee detail");
+		System.out.println("Enter 3 : Update Employee detail");
+		System.out.println("Enter 4 : Delete Employee detail");
+		System.out.println("Enter 5 : Get average salary of two employees");
+		System.out.println("Enter 6 : Get employee details");
+		System.out.println("Enter 7 : To exit");
+		System.out.println("Enter your choice");
+		int ch = Integer.parseInt(sc.nextLine());
+		System.out.println();
+		switch(ch) {
+		case 1:
+			addEmployee();
+			break;
+		case 2:
+			getEmployee();
+			break;
+		case 3:
+			updateEmployee();
+			break;
+		case 4:
+			deleteEmployee();
+			break;
+		case 5:
+			printAverage();
+			break;
+		case 6:
+			getEmployeeDetails();
+			break;
+		case 7:
+			System.exit(0);
+			break;
+		default:
+			System.out.println("Please enter a valid choice");
+			break;
+		}
+		}
+	}
+	
+	private static void addEmployee()throws Exception {
+		System.out.print("ID : ");
+		int id = Integer.parseInt(sc.nextLine());
+		System.out.println();
+		System.out.print("Name : ");
+		String name = sc.nextLine();
+		System.out.println();
+		System.out.print("Salary : ");
+		double salary = Double.parseDouble(sc.nextLine());
+		System.out.println();
+		Employee employee = new Employee();
+		employee.setId(id);
+		employee.setName(name);
+		employee.setSalary(salary);
+		
+		int count = EmployeeDAO.createEmployee(employee);
+		
+		System.out.println(count + " row(s) inserted");
+	}
+	
+	private static void getEmployee()throws Exception {
+		System.out.print("ID : ");
+		int id = Integer.parseInt(sc.nextLine());
+		System.out.println();
+		
+		Employee employee = EmployeeDAO.getEmployee(id);
+		System.out.println(employee);
+	}
+	
+	private static void updateEmployee()throws Exception {
+		System.out.print("ID : ");
+		int id = Integer.parseInt(sc.nextLine());
+		System.out.println();
+		System.out.print("Salary : ");
+		double salary = Double.parseDouble(sc.nextLine());
+		System.out.println();
+		
+		int count = EmployeeDAO.updateEmployee(id, salary);
+		
+		System.out.println(count + " row(s) updated");
+	}
+	
+	private static void deleteEmployee()throws Exception{
+		System.out.print("ID : ");
+		int id = Integer.parseInt(sc.nextLine());
+		System.out.println();
+		
+		int count = EmployeeDAO.deleteEmployee(id);
+		
+		System.out.println(count + " row(s) deleted");
+	}
+
+	private static void printAverage()throws Exception {
+		System.out.print("ID1 : ");
+		int id1 = Integer.parseInt(sc.nextLine());
+		System.out.println();
+		
+		System.out.print("ID2 : ");
+		int id2 = Integer.parseInt(sc.nextLine());
+		System.out.println();
+		
+		System.out.println(EmployeeDAO.getAverageSalary(id1, id2));
+	}
+
+	private static void getEmployeeDetails()throws Exception{
+		System.out.print("ID1 : ");
+		int id1 = Integer.parseInt(sc.nextLine());
+		System.out.println();
+		
+		System.out.println(EmployeeDAO.getEmployeeDetails(id1));
+	}
+}
